@@ -1,6 +1,5 @@
 package com.project.Project.model;
 
-
 import jakarta.persistence.*;
 import java.sql.Timestamp;
 
@@ -10,7 +9,7 @@ public class Faculties {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long facultiesid;
+    private Long id;
 
     private String name;
     private String description;
@@ -18,20 +17,37 @@ public class Faculties {
     @Column(name = "created_at")
     private Timestamp createdAt;
 
-    public Long getFacultiesid() {
-        return facultiesid;
+    /* Getters and Setters */
+
+    public Long getId() {
+        return id;
     }
 
-    public void setFacultiesid(Long facultiesid) {
-        this.facultiesid = facultiesid;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public String getName() {
+        return name;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public Timestamp getCreatedAt() { return createdAt; }
-    public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
 }

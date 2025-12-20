@@ -9,40 +9,67 @@ public class Subjects {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "subjectid")  // ensure exact DB column
-    private Long subjectid;
+    private Long id;
 
-    @Column(name = "code")
     private String code;
-
-    @Column(name = "name")
     private String name;
 
     @Column(name = "full_mark")
     private Integer fullMark;
 
     @Column(name = "pass_marks")
-    private Integer passMarks;  // rename to camelCase in Java, map to DB column
+    private Integer passMarks;
 
     @Column(name = "created_at")
     private Timestamp createdAt;
 
-    // Getters and setters
-    public Long getSubjectid() { return subjectid; }
-    public void setSubjectid(Long subjectid) { this.subjectid = subjectid; }
+    /* Getters and Setters */
 
-    public String getCode() { return code; }
-    public void setCode(String code) { this.code = code; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public Integer getFullMark() { return fullMark; }
-    public void setFullMark(Integer fullMark) { this.fullMark = fullMark; }
+    public String getCode() {
+        return code;
+    }
 
-    public Integer getPassMarks() { return passMarks; }
-    public void setPassMarks(Integer passMarks) { this.passMarks = passMarks; }
+    public void setCode(String code) {
+        this.code = code;
+    }
 
-    public Timestamp getCreatedAt() { return createdAt; }
-    public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getFullMark() {
+        return fullMark;
+    }
+
+    public void setFullMark(Integer fullMark) {
+        this.fullMark = fullMark;
+    }
+
+    public Integer getPassMarks() {
+        return passMarks;
+    }
+
+    public void setPassMarks(Integer passMarks) {
+        this.passMarks = passMarks;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
 }

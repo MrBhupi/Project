@@ -1,6 +1,5 @@
 package com.project.Project.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
@@ -9,44 +8,71 @@ public class Teacher_subjects {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "teacher_subjectid")
-    private Long teacherSubjectId;
+    private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "teacher_id", nullable = false)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Teachers teacher;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "subject_id", nullable = false)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Subjects subject;
 
-    @Column(name = "student_batch")
     private String studentBatch;
 
-    @Column(name = "student_programid")
-    private Integer studentProgramId;
+    @ManyToOne
+    @JoinColumn(name = "student_program_id")
+    private Programs studentProgram;
 
-    @Column(name = "student_semester")
     private Integer studentSemester;
 
-    // Getters and Setters
-    public Long getTeacherSubjectId() { return teacherSubjectId; }
-    public void setTeacherSubjectId(Long teacherSubjectId) { this.teacherSubjectId = teacherSubjectId; }
+    /* Getters and Setters */
 
-    public Teachers getTeacher() { return teacher; }
-    public void setTeacher(Teachers teacher) { this.teacher = teacher; }
+    public Long getId() {
+        return id;
+    }
 
-    public Subjects getSubject() { return subject; }
-    public void setSubject(Subjects subject) { this.subject = subject; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getStudentBatch() { return studentBatch; }
-    public void setStudentBatch(String studentBatch) { this.studentBatch = studentBatch; }
+    public Teachers getTeacher() {
+        return teacher;
+    }
 
-    public Integer getStudentProgramId() { return studentProgramId; }
-    public void setStudentProgramId(Integer studentProgramId) { this.studentProgramId = studentProgramId; }
+    public void setTeacher(Teachers teacher) {
+        this.teacher = teacher;
+    }
 
-    public Integer getStudentSemester() { return studentSemester; }
-    public void setStudentSemester(Integer studentSemester) { this.studentSemester = studentSemester; }
+    public Subjects getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subjects subject) {
+        this.subject = subject;
+    }
+
+    public String getStudentBatch() {
+        return studentBatch;
+    }
+
+    public void setStudentBatch(String studentBatch) {
+        this.studentBatch = studentBatch;
+    }
+
+    public Programs getStudentProgram() {
+        return studentProgram;
+    }
+
+    public void setStudentProgram(Programs studentProgram) {
+        this.studentProgram = studentProgram;
+    }
+
+    public Integer getStudentSemester() {
+        return studentSemester;
+    }
+
+    public void setStudentSemester(Integer studentSemester) {
+        this.studentSemester = studentSemester;
+    }
 }

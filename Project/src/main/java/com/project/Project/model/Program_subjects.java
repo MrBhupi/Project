@@ -1,6 +1,5 @@
 package com.project.Project.model;
 
-
 import jakarta.persistence.*;
 
 @Entity
@@ -9,14 +8,12 @@ public class Program_subjects {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long program_subjectid;
+    private Long id;
 
-    /* FK → programs.id */
     @ManyToOne
     @JoinColumn(name = "program_id", nullable = false)
     private Programs program;
 
-    /* FK → subjects.id */
     @ManyToOne
     @JoinColumn(name = "subject_id", nullable = false)
     private Subjects subject;
@@ -25,20 +22,29 @@ public class Program_subjects {
 
     /* Getters and Setters */
 
-    public Long getProgram_subjectid() {
-        return program_subjectid;
+    public Long getId() {
+        return id;
     }
 
-    public void setProgram_subjectid(Long program_subjectid) {
-        this.program_subjectid = program_subjectid;
+    public void setId(Long id) {
+        this.id = id;
     }
-
 
     public Programs getProgram() {
         return program;
     }
 
+    public void setProgram(Programs program) {
+        this.program = program;
+    }
 
+    public Subjects getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subjects subject) {
+        this.subject = subject;
+    }
 
     public Integer getSemester() {
         return semester;
@@ -46,13 +52,5 @@ public class Program_subjects {
 
     public void setSemester(Integer semester) {
         this.semester = semester;
-    }
-
-    public void setProgram(Integer programId) {
-
-    }
-
-    public void setSubject(Integer subjectId) {
-
     }
 }

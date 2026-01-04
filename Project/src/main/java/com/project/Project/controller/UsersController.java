@@ -1,49 +1,66 @@
 package com.project.Project.controller;
 
 import com.project.Project.model.Users;
+import com.project.Project.model.Role;
 import com.project.Project.repository.UsersRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/users")
 public class UsersController {
 
-    private final UsersRepository repo;
+    @Autowired
+    private UsersRepository usersRepository;
 
-    public UsersController(UsersRepository repo) {
-        this.repo = repo;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    // Create a new user
+    @PostMapping("/create")
+    public Users createUser(@RequestBody UserRequest userRequest) {
+        Users user = new Users();
+        user.setUsername(userRequest.getUsername());
+        user.setEmail(userRequest.getEmail());
+        user.setPasswordHash(passwordEncoder.encode(userRequest.getPassword()));
+        user.setRole(userRequest.getRole());
+        user.setRequiresPasswordChange(false);
+
+        return usersRepository.save(user);
     }
 
+
+    // List all users (excluding passwords)
     @GetMapping
-    public List<Users> getAll() {
-        return repo.findAll();
+    public Iterable<Users> getAllUsers() {
+        return usersRepository.findAll();
     }
 
-    @GetMapping("/{id}")
-    public Users getById(@PathVariable Long id) {
-        return repo.findById(id).orElseThrow();
-    }
-
-    @PostMapping
-    public Users create(@RequestBody Users user) {
-        return repo.save(user);
-    }
-
-    @PutMapping("/{id}")
-    public Users update(@PathVariable Long id, @RequestBody Users data) {
-        Users user = repo.findById(id).orElseThrow();
-        user.setUsername(data.getUsername());
-        user.setEmail(data.getEmail());
-        user.setPasswordHash(data.getPasswordHash());
-        user.setRole(data.getRole());
-        user.setRequiresPasswordChange(data.getRequiresPasswordChange());
-        return repo.save(user);
-    }
-
+    // Delete a user by id
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        repo.deleteById(id);
+    public String deleteUser(@PathVariable Long id) {
+        usersRepository.deleteById(id);
+        return "User deleted with id: " + id;
+    }
+
+    // DTO class for user creation request
+    public static class UserRequest {
+        private String username;
+        private String email;
+        private String password;
+        private Role role;
+
+        public String getUsername() { return username; }
+        public void setUsername(String username) { this.username = username; }
+
+        public String getEmail() { return email; }
+        public void setEmail(String email) { this.email = email; }
+
+        public String getPassword() { return password; }
+        public void setPassword(String password) { this.password = password; }
+
+        public Role getRole() { return role; }
+        public void setRole(Role role) { this.role = role; }
     }
 }

@@ -12,7 +12,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -23,22 +22,27 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtUtils jwtUtils) {
         this.authenticationManager = authenticationManager;
         this.jwtUtils = jwtUtils;
-        setFilterProcessesUrl("/login"); // login endpoint
+        setFilterProcessesUrl("/login");
     }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
-                                                HttpServletResponse response) throws AuthenticationException {
+                                                HttpServletResponse response)
+            throws AuthenticationException {
         try {
-            // Read username and password from request JSON
-            var authRequest = new ObjectMapper().readValue(request.getInputStream(), LoginRequest.class);
+            LoginRequest authRequest =
+                    new ObjectMapper().readValue(request.getInputStream(), LoginRequest.class);
 
             UsernamePasswordAuthenticationToken authToken =
-                    new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword());
+                    new UsernamePasswordAuthenticationToken(
+                            authRequest.getUsername(),
+                            authRequest.getPassword()
+                    );
 
             return authenticationManager.authenticate(authToken);
+
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Invalid login request", e);
         }
     }
 
@@ -46,20 +50,35 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
                                             FilterChain chain,
-                                            Authentication authResult) throws IOException, ServletException {
+                                            Authentication authResult)
+            throws IOException {
+
+        boolean isStudent = authResult.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_student"));
+
+        if (isStudent) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            response.setContentType("application/json");
+            response.getWriter().write("""
+            {
+              "message": "Students must log in via the mobile application."
+            }
+        """);
+            return;
+        }
 
         String token = jwtUtils.generateJwtToken(authResult);
 
         response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-
-        Map<String, String> tokenMap = new HashMap<>();
-        tokenMap.put("token", token);
-
-        new ObjectMapper().writeValue(response.getWriter(), tokenMap);
+        response.getWriter().write("""
+        {
+          "token": "%s"
+        }
+    """.formatted(token));
     }
 
-    // DTO for login request
+
+    // DTO
     private static class LoginRequest {
         private String username;
         private String password;

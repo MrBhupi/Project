@@ -18,33 +18,19 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final JwtUtils jwtUtils;
     private final CustomUserDetailsService userDetailsService;
 
-    // List of public endpoints (no JWT required)
+    // ===== PUBLIC URLS (NO JWT REQUIRED) =====
     private static final List<String> PUBLIC_URLS = List.of(
             "/login",
-            "/users",
-            "/users/",
-            "/users/", // covers /users/**
-            "/teachers",
-            "/teachers/",
-            "/terms",
-            "/terms/",
-            "/teacher-subjects",
-            "/teacher-subjects/",
-            "/subjects",
-            "/subjects/",
-            "/students",
-            "/students/",
-            "/programs",
-            "/programs/",
-            "/program-subjects",
-            "/program-subjects/",
-            "/marks",
-            "/marks/",
-            "/faculties",
-            "/faculties/"
+            "/users/create",
+
+            // Forgot Password
+            "/auth/forgot-password",
+            "/auth/verify-otp",
+            "/auth/reset-password"
     );
 
-    public JwtAuthorizationFilter(JwtUtils jwtUtils, CustomUserDetailsService userDetailsService) {
+    public JwtAuthorizationFilter(JwtUtils jwtUtils,
+                                  CustomUserDetailsService userDetailsService) {
         this.jwtUtils = jwtUtils;
         this.userDetailsService = userDetailsService;
     }
@@ -52,11 +38,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-                                    FilterChain chain) throws IOException, ServletException {
+                                    FilterChain chain)
+            throws IOException, ServletException {
 
         String path = request.getRequestURI();
 
-        // Skip JWT validation for public endpoints
+        // ===== SKIP JWT FOR PUBLIC URLS =====
         for (String url : PUBLIC_URLS) {
             if (path.startsWith(url)) {
                 chain.doFilter(request, response);
@@ -64,7 +51,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
             }
         }
 
-        // JWT validation for secured endpoints
+        // ===== CHECK JWT =====
         String header = request.getHeader("Authorization");
 
         if (header != null && header.startsWith("Bearer ")) {
@@ -72,13 +59,24 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
             if (jwtUtils.validateJwtToken(token)) {
                 String username = jwtUtils.getUsernameFromJwt(token);
-                var userDetails = userDetailsService.loadUserByUsername(username);
 
-                var auth = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
+                var userDetails =
+                        userDetailsService.loadUserByUsername(username);
 
-                auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(auth);
+                UsernamePasswordAuthenticationToken authentication =
+                        new UsernamePasswordAuthenticationToken(
+                                userDetails,
+                                null,
+                                userDetails.getAuthorities()
+                        );
+
+                authentication.setDetails(
+                        new WebAuthenticationDetailsSource()
+                                .buildDetails(request)
+                );
+
+                SecurityContextHolder.getContext()
+                        .setAuthentication(authentication);
             }
         }
 

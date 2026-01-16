@@ -13,6 +13,12 @@ public class Subjects {
 
     private String code;
     private String name;
+    private Integer semester;
+
+    @ManyToOne
+    @JoinColumn(name = "program_id")
+    private Programs program;
+
 
     @Column(name = "full_mark")
     private Integer fullMark;
@@ -67,6 +73,22 @@ public class Subjects {
 
     public Timestamp getCreatedAt() {
         return createdAt;
+    }
+
+    public Integer getSemester() {
+        return semester;
+    }
+
+    public void setSemester(Integer semester) {
+        this.semester = semester;
+    }
+
+    public Programs getProgram() {
+        return program;
+    }
+
+    public void setProgram(Programs program) {
+        this.program = program;
     }
 
     public void setCreatedAt(Timestamp createdAt) {

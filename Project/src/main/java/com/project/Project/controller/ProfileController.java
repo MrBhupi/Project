@@ -5,6 +5,7 @@ import com.project.Project.model.Users;
 import com.project.Project.repository.UsersRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
 @RestController
 @RequestMapping("/profile")
 public class ProfileController {
@@ -23,8 +24,10 @@ public class ProfileController {
         Users user = usersRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
+        // Return ID, name, username, and role
         return new ProfileDto(
-                user.getUsername(),
+                user.getId(),
+                user.getUsername(), // or actual full name if you have a separate field
                 user.getUsername(),
                 user.getRole().name()
         );

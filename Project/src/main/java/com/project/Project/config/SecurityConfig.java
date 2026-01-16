@@ -8,77 +8,82 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.List;
+
+@EnableMethodSecurity
 @Configuration
 public class SecurityConfig {
 
     private final CustomUserDetailsService userDetailsService;
     private final JwtUtils jwtUtils;
 
-    public SecurityConfig(CustomUserDetailsService userDetailsService,
-                          JwtUtils jwtUtils) {
+    public SecurityConfig(CustomUserDetailsService userDetailsService, JwtUtils jwtUtils) {
         this.userDetailsService = userDetailsService;
         this.jwtUtils = jwtUtils;
     }
 
+    // ===== Password Encoder =====
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    // ===== Authentication Manager =====
     @Bean
-    public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration config) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
+    // ===== Security Filter Chain =====
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,
                                            AuthenticationManager authManager) throws Exception {
 
-        JwtAuthenticationFilter jwtAuthFilter =
-                new JwtAuthenticationFilter(authManager, jwtUtils);
+        JwtAuthenticationFilter jwtAuthFilter = new JwtAuthenticationFilter(authManager, jwtUtils);
+        jwtAuthFilter.setFilterProcessesUrl("/login");
 
         http
                 .csrf(csrf -> csrf.disable())
-                .sessionManagement(sm ->
-                        sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
 
-                        // Public endpoint
-                        .requestMatchers("/login").permitAll()
-                        .requestMatchers("/profile").authenticated()
-
-                        // ADMIN → full access
-                        .requestMatchers("/**").hasRole("admin")
-
-                        // STUDENT permissions
+                        // ===== PUBLIC ENDPOINTS =====
                         .requestMatchers(
+                                "/login",
+                                "/users/create",                 // public for testing
+                                "/auth/forgot-password",
+                                "/auth/verify-otp",
+                                "/auth/reset-password"
+                        ).permitAll()
+
+                        // ===== ADMIN ONLY =====
+                        .requestMatchers("/users/register").hasRole("admin")  // admin only
+
+                        // ===== ADMIN OR TEACHER =====
+                        .requestMatchers(
+                                "/users/**",
+                                "/teachers/**",
                                 "/faculties/**",
-                                "/programs/**",
-                                "/marks/**",
                                 "/subjects/**",
                                 "/terms/**"
-                        ).hasAnyRole("student", "admin")
+                        ).hasAnyRole("admin", "teacher")
 
-                        // TEACHER permissions
-                        .requestMatchers(
-                                "/subjects/**",
-                                "/programs/**",
-                                "/faculties/**",
-                                "/terms/**",
-                                "/marks/**",
-                                "/teachers/**"
-                        ).hasAnyRole("teacher", "admin")
+                        // ===== STUDENT / ADMIN / TEACHER =====
+                        .requestMatchers("/marks/**").hasAnyRole("student", "admin", "teacher")
 
-                        // Everything else
+                        // ===== ANY OTHER REQUEST =====
                         .anyRequest().authenticated()
                 )
                 .addFilter(jwtAuthFilter)
@@ -88,5 +93,19 @@ public class SecurityConfig {
                 );
 
         return http.build();
+    }
+
+    // ===== CORS CONFIG =====
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }

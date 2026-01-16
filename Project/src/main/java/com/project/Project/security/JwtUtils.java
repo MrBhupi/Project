@@ -23,11 +23,13 @@ public class JwtUtils {
 
         return Jwts.builder()
                 .setSubject(userPrincipal.getUsername())
+              //  .claim("role", userPrincipal.getAuthorities().iterator().next().getAuthority())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
+
 
     // Extract username from JWT token
     public String getUsernameFromJwt(String token) {
@@ -38,6 +40,7 @@ public class JwtUtils {
                 .getBody()
                 .getSubject();
     }
+
 
     // Validate JWT token
     public boolean validateJwtToken(String token) {

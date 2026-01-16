@@ -1,6 +1,9 @@
 package com.project.Project.controller;
 
+<<<<<<< HEAD
 import com.project.Project.dto.ProfileDto;
+=======
+>>>>>>> 845ec6f833dea6f666d22aa3544cd98fa92d0d3c
 import com.project.Project.model.Users;
 import com.project.Project.repository.UsersRepository;
 import org.springframework.security.core.Authentication;
@@ -17,6 +20,7 @@ public class ProfileController {
     }
 
     @GetMapping
+<<<<<<< HEAD
     public ProfileDto getProfile(Authentication authentication) {
 
         String username = authentication.getName();
@@ -31,5 +35,14 @@ public class ProfileController {
                 user.getUsername(),
                 user.getRole().name()
         );
+=======
+    public Users getProfile(Authentication authentication) {
+
+        // username comes from JWT (SecurityContext)
+        String username = authentication.getName();
+
+        return usersRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+>>>>>>> 845ec6f833dea6f666d22aa3544cd98fa92d0d3c
     }
 }

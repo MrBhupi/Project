@@ -8,13 +8,17 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+<<<<<<< HEAD
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+=======
+>>>>>>> 845ec6f833dea6f666d22aa3544cd98fa92d0d3c
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+<<<<<<< HEAD
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -22,6 +26,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 @EnableMethodSecurity
+=======
+
+>>>>>>> 845ec6f833dea6f666d22aa3544cd98fa92d0d3c
 @Configuration
 public class SecurityConfig {
 
@@ -33,18 +40,27 @@ public class SecurityConfig {
         this.jwtUtils = jwtUtils;
     }
 
+<<<<<<< HEAD
     // ===== Password Encoder =====
+=======
+    // Password encoder bean
+>>>>>>> 845ec6f833dea6f666d22aa3544cd98fa92d0d3c
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+<<<<<<< HEAD
     // ===== Authentication Manager =====
+=======
+    // AuthenticationManager bean
+>>>>>>> 845ec6f833dea6f666d22aa3544cd98fa92d0d3c
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
+<<<<<<< HEAD
     // ===== Security Filter Chain =====
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http,
@@ -108,4 +124,28 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+=======
+    // Security filter chain
+    @Bean
+    public SecurityFilterChain filterChain(org.springframework.security.config.annotation.web.builders.HttpSecurity http,
+                                           AuthenticationManager authManager) throws Exception {
+
+        // JWT Authentication filter
+        JwtAuthenticationFilter jwtAuthFilter = new JwtAuthenticationFilter(authManager, jwtUtils);
+        jwtAuthFilter.setFilterProcessesUrl("/login"); // login endpoint
+
+        // Configure HttpSecurity
+        http.csrf(csrf -> csrf.disable())
+                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/login", "/users/create").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .addFilter(jwtAuthFilter) // login filter
+                .addFilterBefore(new JwtAuthorizationFilter(jwtUtils, userDetailsService),
+                        UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
+    }
+>>>>>>> 845ec6f833dea6f666d22aa3544cd98fa92d0d3c
 }

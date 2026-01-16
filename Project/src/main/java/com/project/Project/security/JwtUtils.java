@@ -23,14 +23,22 @@ public class JwtUtils {
 
         return Jwts.builder()
                 .setSubject(userPrincipal.getUsername())
+<<<<<<< HEAD
               //  .claim("role", userPrincipal.getAuthorities().iterator().next().getAuthority())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
+=======
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+>>>>>>> 845ec6f833dea6f666d22aa3544cd98fa92d0d3c
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 845ec6f833dea6f666d22aa3544cd98fa92d0d3c
     // Extract username from JWT token
     public String getUsernameFromJwt(String token) {
         return Jwts.parserBuilder()
@@ -41,7 +49,10 @@ public class JwtUtils {
                 .getSubject();
     }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 845ec6f833dea6f666d22aa3544cd98fa92d0d3c
     // Validate JWT token
     public boolean validateJwtToken(String token) {
         try {

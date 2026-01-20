@@ -10,13 +10,13 @@ import java.util.List;
 public interface MarksRepository extends JpaRepository<Marks, Long> {
 
     @Query("""
-    select m from Marks m
-    join m.student s
-    where s.batch = :batch
-      and s.program.id = :programId
-      and s.semester = :semester
-      and m.term.id = :termId
-""")
+        select m from Marks m
+        join m.student s
+        where s.batch = :batch
+          and s.program.id = :programId
+          and s.semester = :semester
+          and m.term.id = :termId
+    """)
     List<Marks> findByBatchProgramSemesterTerm(
             @Param("batch") String batch,
             @Param("programId") Long programId,
@@ -24,5 +24,11 @@ public interface MarksRepository extends JpaRepository<Marks, Long> {
             @Param("termId") Long termId
     );
 
-
+    // ✅ ADD THIS
+    boolean existsByStudentIdAndSubjectIdAndTermId(
+            Long studentId,
+            Long subjectId,
+            Long termId
+    );
 }
+

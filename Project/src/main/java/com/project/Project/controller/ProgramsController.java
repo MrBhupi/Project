@@ -2,6 +2,7 @@ package com.project.Project.controller;
 
 import com.project.Project.model.Programs;
 import com.project.Project.repository.ProgramsRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class ProgramsController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('admin','teacher')")
     public List<Programs> getAll() {
         return repo.findAll();
     }

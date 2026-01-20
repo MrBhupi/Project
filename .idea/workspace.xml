@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="31f6a5ba-96f6-4cb7-989d-2fe40d74fb7f" name="Changes" comment="commit">
+      <change beforePath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/controller/MarksController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/controller/MarksController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/controller/ProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/controller/ProfileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/controller/ProgramsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/controller/ProgramsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/controller/UsersController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/controller/UsersController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/dto/LoginResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/dto/LoginResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/model/Faculties.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/model/Faculties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/model/Users.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/model/Users.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/repository/FacultiesRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/repository/FacultiesRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/repository/MarksRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/repository/MarksRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/repository/UsersRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/repository/UsersRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/security/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/security/JwtAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/security/JwtAuthorizationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/security/JwtAuthorizationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/security/JwtUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/security/JwtUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/service/CustomUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Project/src/main/java/com/project/Project/service/CustomUserDetailsService.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;MrBhupi&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/MrBhupi/Project.git&quot;,
+    &quot;accountId&quot;: &quot;828d5e1b-e40a-4914-94e6-c907f374adc0&quot;
+  }
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
+  <component name="ProjectId" id="373NLgNCryyw5eS7WZNqHM8FP1K" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;Spring Boot.ProjectApplication.executor&quot;: &quot;Run&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Project III/Project&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration name="ProjectApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="Project" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.project.Project.ProjectApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-cffe25b9f5b3-intellij.indexing.shared.core-IU-253.28294.334" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="31f6a5ba-96f6-4cb7-989d-2fe40d74fb7f" name="Changes" comment="" />
+      <created>1766127740510</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1766127740510</updated>
+      <workItem from="1766127741654" duration="11403000" />
+      <workItem from="1766143293128" duration="5529000" />
+      <workItem from="1766236621218" duration="4508000" />
+      <workItem from="1766242763197" duration="158000" />
+      <workItem from="1766243669596" duration="636000" />
+      <workItem from="1766318723209" duration="3145000" />
+      <workItem from="1766323465841" duration="808000" />
+      <workItem from="1766324291053" duration="5079000" />
+      <workItem from="1766331245642" duration="1062000" />
+      <workItem from="1766402070804" duration="1029000" />
+      <workItem from="1766403119644" duration="682000" />
+      <workItem from="1766403817661" duration="5126000" />
+      <workItem from="1766409118086" duration="929000" />
+      <workItem from="1766416935736" duration="244000" />
+      <workItem from="1766584780106" duration="3541000" />
+      <workItem from="1766758450418" duration="720000" />
+      <workItem from="1766840609400" duration="732000" />
+      <workItem from="1766841358877" duration="1510000" />
+      <workItem from="1766842902109" duration="1260000" />
+      <workItem from="1766889708493" duration="5840000" />
+      <workItem from="1766925759894" duration="3699000" />
+      <workItem from="1766974847455" duration="2563000" />
+      <workItem from="1767013849367" duration="937000" />
+      <workItem from="1767060932061" duration="5665000" />
+      <workItem from="1767441555369" duration="717000" />
+      <workItem from="1767522326130" duration="4600000" />
+      <workItem from="1767528650879" duration="83000" />
+      <workItem from="1767529017274" duration="559000" />
+      <workItem from="1767870789926" duration="4159000" />
+      <workItem from="1767963133647" duration="5192000" />
+      <workItem from="1768052971517" duration="4602000" />
+      <workItem from="1768101693987" duration="888000" />
+      <workItem from="1768102601622" duration="4217000" />
+      <workItem from="1768144647964" duration="2427000" />
+      <workItem from="1768224944310" duration="4415000" />
+      <workItem from="1768280087718" duration="17000" />
+    </task>
+    <task id="LOCAL-00001" summary="commit">
+      <option name="closed" value="true" />
+      <created>1767525396666</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1767525396666</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

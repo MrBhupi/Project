@@ -2,13 +2,13 @@ package com.project.Project.model;
 
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-<<<<<<< HEAD
+
 import org.springframework.security.core.GrantedAuthority;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-=======
->>>>>>> 845ec6f833dea6f666d22aa3544cd98fa92d0d3c
+
+
 
 @Entity
 @Table(name = "users")
@@ -19,11 +19,9 @@ public class Users {
     private Long id;
 
     private String username;
+    @Column(unique = true)
     private String email;
-<<<<<<< HEAD
 
-=======
->>>>>>> 845ec6f833dea6f666d22aa3544cd98fa92d0d3c
     @JsonIgnore
     @Column(name = "password_hash")
     private String passwordHash;
@@ -34,7 +32,7 @@ public class Users {
     @Column(name = "requires_password_change")
     private Boolean requiresPasswordChange;
 
-<<<<<<< HEAD
+
     // ===== FORGOT PASSWORD FIELDS =====
     @Column(name = "reset_otp")
     private String resetOtp;
@@ -47,28 +45,61 @@ public class Users {
     private Boolean active = true;
 
     // ===== Getters & Setters =====
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+    public String getUsername() {
+        return username;
+    }
 
-    public String getPasswordHash() { return passwordHash; }
-    public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-    public Role getRole() { return role; }
-    public void setRole(Role role) { this.role = role; }
+    public String getEmail() {
+        return email;
+    }
 
-    public Boolean getRequiresPasswordChange() { return requiresPasswordChange; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPasswordHash() {
+        return passwordHash;
+    }
+
+    public void setPasswordHash(String passwordHash) {
+        this.passwordHash = passwordHash;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public Boolean getRequiresPasswordChange() {
+        return requiresPasswordChange;
+    }
+
     public void setRequiresPasswordChange(Boolean requiresPasswordChange) {
         this.requiresPasswordChange = requiresPasswordChange;
     }
 
-    public String getResetOtp() { return resetOtp; }
-    public void setResetOtp(String resetOtp) { this.resetOtp = resetOtp; }
+    public String getResetOtp() {
+        return resetOtp;
+    }
+
+    public void setResetOtp(String resetOtp) {
+        this.resetOtp = resetOtp;
+    }
 
     public LocalDateTime getResetOtpExpiry() {
         return resetOtpExpiry;
@@ -97,24 +128,5 @@ public class Users {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;
     }
-=======
-    // Getters and Setters
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getUsername() { return username; }
-    public void setUsername(String username) { this.username = username; }
-
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
-
-    public String getPasswordHash() { return passwordHash; }
-    public void setPasswordHash(String passwordHash) { this.passwordHash = passwordHash; }
-
-    public Role getRole() { return role; }
-    public void setRole(Role role) { this.role = role; }
-
-    public Boolean getRequiresPasswordChange() { return requiresPasswordChange; }
-    public void setRequiresPasswordChange(Boolean requiresPasswordChange) { this.requiresPasswordChange = requiresPasswordChange; }
->>>>>>> 845ec6f833dea6f666d22aa3544cd98fa92d0d3c
 }
+

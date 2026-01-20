@@ -14,8 +14,14 @@ public class Faculties {
     private String name;
     private String description;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     private Timestamp createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = new Timestamp(System.currentTimeMillis());
+    }
+
 
     /* Getters and Setters */
 
@@ -50,4 +56,5 @@ public class Faculties {
     public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
+
 }

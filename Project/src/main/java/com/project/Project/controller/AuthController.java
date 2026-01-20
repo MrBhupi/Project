@@ -3,12 +3,15 @@ package com.project.Project.controller;
 import com.project.Project.model.Users;
 import com.project.Project.repository.UsersRepository;
 import com.project.Project.service.EmailService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Random;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -28,16 +31,20 @@ public class AuthController {
     }
 
     // ===============================
-    // SEND OTP
+    // SEND OTP (Forgot Password)
     // ===============================
     @PostMapping("/forgot-password")
-    public Map<String, String> forgotPassword(@RequestBody Map<String, String> req) {
-
+    public ResponseEntity<Map<String, String>> forgotPassword(@RequestBody Map<String, String> req) {
         String email = req.get("email");
 
-        Users user = usersRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("Email not registered"));
+        var userOpt = usersRepository.findByEmail(email);
+        if (userOpt.isEmpty()) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", "Email not registered"));
+        }
 
+        Users user = userOpt.get();
         String otp = String.valueOf(100000 + new Random().nextInt(900000));
 
         user.setResetOtp(otp);
@@ -47,42 +54,56 @@ public class AuthController {
         usersRepository.save(user);
         emailService.sendOtp(email, otp);
 
-        return Map.of("message", "OTP sent to email");
+        return ResponseEntity.ok(Map.of("message", "OTP sent to email"));
     }
 
     // ===============================
     // VERIFY OTP
     // ===============================
     @PostMapping("/verify-otp")
-    public Map<String, String> verifyOtp(@RequestBody Map<String, String> req) {
+    public ResponseEntity<Map<String, String>> verifyOtp(@RequestBody Map<String, String> req) {
+        var userOpt = usersRepository.findByEmail(req.get("email"));
+        if (userOpt.isEmpty()) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", "Email not registered"));
+        }
 
-        Users user = usersRepository.findByEmail(req.get("email"))
-                .orElseThrow(() -> new RuntimeException("Invalid email"));
+        Users user = userOpt.get();
 
         if (user.getResetOtp() == null ||
                 !user.getResetOtp().equals(req.get("otp")) ||
                 user.getResetOtpExpiry().isBefore(LocalDateTime.now())) {
 
-            throw new RuntimeException("Invalid or expired OTP");
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", "Invalid or expired OTP"));
         }
 
         user.setOtpVerified(true);
         usersRepository.save(user);
 
-        return Map.of("message", "OTP verified");
+        return ResponseEntity.ok(Map.of("message", "OTP verified"));
     }
 
     // ===============================
     // RESET PASSWORD
     // ===============================
     @PostMapping("/reset-password")
-    public Map<String, String> resetPassword(@RequestBody Map<String, String> req) {
+    public ResponseEntity<Map<String, String>> resetPassword(@RequestBody Map<String, String> req) {
+        var userOpt = usersRepository.findByEmail(req.get("email"));
+        if (userOpt.isEmpty()) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", "Email not registered"));
+        }
 
-        Users user = usersRepository.findByEmail(req.get("email"))
-                .orElseThrow(() -> new RuntimeException("Invalid email"));
+        Users user = userOpt.get();
 
         if (!Boolean.TRUE.equals(user.getOtpVerified())) {
-            throw new RuntimeException("OTP not verified");
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("message", "OTP not verified"));
         }
 
         user.setPasswordHash(passwordEncoder.encode(req.get("password")));
@@ -92,6 +113,6 @@ public class AuthController {
 
         usersRepository.save(user);
 
-        return Map.of("message", "Password reset successful");
+        return ResponseEntity.ok(Map.of("message", "Password reset successful"));
     }
 }

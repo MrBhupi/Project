@@ -18,6 +18,8 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @RestController
 @RequestMapping("/marks")
@@ -73,49 +75,64 @@ public class MarksController {
                 .sorted((a, b) -> a.getRollNo().compareTo(b.getRollNo()))
                 .toList();
     }
-
-
-
-
     @PostMapping
     public Marks create(@RequestBody Marks marks) {
-        // Validate required IDs
+
+        // ===============================
+        // GET LOGGED-IN USER FROM JWT
+        // ===============================
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName(); // comes from JWT
+
+        Users uploader = userRepo.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("Logged-in user not found"));
+
+        // ===============================
+        // VALIDATIONS
+        // ===============================
         if (marks.getStudent() == null || marks.getStudent().getId() == null)
             throw new IllegalArgumentException("Student ID must not be null");
+
         if (marks.getSubject() == null || marks.getSubject().getId() == null)
             throw new IllegalArgumentException("Subject ID must not be null");
+
         if (marks.getTerm() == null || marks.getTerm().getId() == null)
             throw new IllegalArgumentException("Term ID must not be null");
-        if (marks.getUploadedBy() == null || marks.getUploadedBy().getId() == null)
-            throw new IllegalArgumentException("Uploader (uploadedBy) ID must not be null");
-        if (marks.getObtainedMarks() == null)
-            throw new IllegalArgumentException("Obtained Marks must not be null");
 
-        // Fetch full entities from DB to avoid transient exceptions
+        if (marks.getObtainedMarks() == null)
+            throw new IllegalArgumentException("Obtained marks must not be null");
+
+        // ===============================
+        // PREVENT DUPLICATES
+        // ===============================
+        if (marksRepo.existsByStudentIdAndSubjectIdAndTermId(
+                marks.getStudent().getId(),
+                marks.getSubject().getId(),
+                marks.getTerm().getId()
+        )) {
+            throw new IllegalStateException("Marks already assigned for this subject");
+        }
+
+        // ===============================
+        // FETCH ENTITIES
+        // ===============================
         Students student = studentRepo.findById(marks.getStudent().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Student not found"));
+
         Subjects subject = subjectRepo.findById(marks.getSubject().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Subject not found"));
+
         Terms term = termRepo.findById(marks.getTerm().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Term not found"));
-        Users uploader = userRepo.findById(marks.getUploadedBy().getId())
-                .orElseThrow(() -> new IllegalArgumentException("Uploader not found"));
 
-        // Set fetched entities back
+        // ===============================
+        // SET FIELDS
+        // ===============================
         marks.setStudent(student);
         marks.setSubject(subject);
         marks.setTerm(term);
         marks.setUploadedBy(uploader);
-
-        // Set timestamp if not set
-        if (marks.getUploadedAt() == null) {
-            marks.setUploadedAt(new Timestamp(System.currentTimeMillis()));
-        }
-
-        // Ensure obtainedMarks is BigDecimal (important)
-        if (!(marks.getObtainedMarks() instanceof BigDecimal)) {
-            marks.setObtainedMarks(BigDecimal.valueOf(marks.getObtainedMarks().doubleValue()));
-        }
+        marks.setUploadedAt(new Timestamp(System.currentTimeMillis()));
 
         return marksRepo.save(marks);
     }

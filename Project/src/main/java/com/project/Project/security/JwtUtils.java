@@ -17,28 +17,34 @@ public class JwtUtils {
 
     private final Key key = Keys.hmacShaKeyFor(jwtSecret.getBytes());
 
-    // Generate JWT token from Authentication object
     public String generateJwtToken(Authentication authentication) {
         UserDetails userPrincipal = (UserDetails) authentication.getPrincipal();
 
+        String role = userPrincipal.getAuthorities()
+                .iterator()
+                .next()
+                .getAuthority()
+                .replace("ROLE_", "");
+
         return Jwts.builder()
                 .setSubject(userPrincipal.getUsername())
-<<<<<<< HEAD
-              //  .claim("role", userPrincipal.getAuthorities().iterator().next().getAuthority())
+                .claim("role", role) // ✅ STORE ROLE
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
-=======
-                .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
->>>>>>> 845ec6f833dea6f666d22aa3544cd98fa92d0d3c
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
+    public String getRoleFromJwt(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("role", String.class);
+    }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 845ec6f833dea6f666d22aa3544cd98fa92d0d3c
+
     // Extract username from JWT token
     public String getUsernameFromJwt(String token) {
         return Jwts.parserBuilder()
@@ -49,10 +55,7 @@ public class JwtUtils {
                 .getSubject();
     }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 845ec6f833dea6f666d22aa3544cd98fa92d0d3c
     // Validate JWT token
     public boolean validateJwtToken(String token) {
         try {
